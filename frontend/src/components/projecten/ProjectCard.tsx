@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { safeUrl } from '@/lib/safeUrl';
@@ -20,7 +19,6 @@ export function ProjectCard({
   variant?: 'slider' | 'grid';
 }) {
   const slider = variant === 'slider';
-  const accent = project.accent || ICON_REST;
 
   const card = (
     <article
@@ -55,7 +53,7 @@ export function ProjectCard({
         <span className="font-heading text-[18px] font-bold leading-[24px] text-[color:var(--color-ink)]">
           {project.title}
         </span>
-        <ExternalLinkIcon accent={accent} />
+        <ExternalLinkIcon />
       </div>
     </article>
   );
@@ -80,19 +78,14 @@ export function ProjectCard({
 }
 
 /**
- * Brand yellow at rest, blue while the card is hovered. The hover blue is
- * spelled out literally in the class below — Tailwind only sees static strings.
- */
-const ICON_REST = '#fcb040';
-
-/**
  * Filled circle with an arrow leaving the box — 36×36 as in the design.
  *
- * The resting colour is inline (it is per-project, set in the CMS) but goes in
- * as a custom property rather than `color:` directly, so the `group-hover`
- * class can still win — an inline `color` would outrank it.
+ * Always brand yellow at rest and blue while the card is hovered, the same on
+ * every card. It deliberately ignores the project's `accent`: most rows carry a
+ * literal #1e62d4 from before this was a hover state, so honouring the field
+ * would leave the grid mostly blue at rest.
  */
-function ExternalLinkIcon({ accent }: { accent: string }) {
+function ExternalLinkIcon() {
   return (
     <svg
       width="36"
@@ -100,8 +93,7 @@ function ExternalLinkIcon({ accent }: { accent: string }) {
       viewBox="0 0 36 36"
       fill="none"
       aria-hidden="true"
-      className="shrink-0 text-[color:var(--icon-accent)] transition-colors duration-300 group-hover:text-[#1e62d4]"
-      style={{ '--icon-accent': accent } as CSSProperties}
+      className="shrink-0 text-[#fcb040] transition-colors duration-300 group-hover:text-[#1e62d4]"
     >
       <path
         fillRule="evenodd"
