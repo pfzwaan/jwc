@@ -30,11 +30,16 @@ return [
 
     'disks' => [
 
+        // throw => true on both local disks: a failed write used to return false
+        // silently, so a Livewire upload that never reached disk still answered
+        // 200 and only surfaced later as UnableToRetrieveMetadata or a bogus
+        // validation.mimetypes failure. Now the real reason (no space, no
+        // permission) is raised where it happens.
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
             'serve' => true,
-            'throw' => false,
+            'throw' => true,
             'report' => false,
         ],
 
@@ -43,7 +48,7 @@ return [
             'root' => storage_path('app/public'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
-            'throw' => false,
+            'throw' => true,
             'report' => false,
         ],
 
