@@ -1,4 +1,4 @@
-johanwillemsen.soonlive.nl {
+jwc.soonlive.nl {
 	# Laravel/Filament backend: API, admin panel, its Livewire/asset endpoints,
 	# and anything it serves out of public/ (uploaded media, compiled assets).
 	handle /api/* {
