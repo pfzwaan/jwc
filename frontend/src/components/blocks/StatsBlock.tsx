@@ -31,7 +31,7 @@ export function StatsBlock({ data }: { data: Record<string, unknown> }) {
                   {str(stat.value)}
                 </p>
 
-                {stat.label && (
+                {str(stat.label) !== '' && (
                   <p className="mt-[14px] font-body text-[18px] leading-5 text-[color:var(--color-ink-deep)]">
                     {str(stat.label)}
                   </p>
