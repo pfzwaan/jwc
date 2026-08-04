@@ -57,11 +57,15 @@ class HeroBlock extends AbstractWidget
                 ->directory('hero')->disk('public')->visibility('public')
                 ->helperText('Leeg = de standaard achtergrond uit het ontwerp.'),
 
-            // The Figma hero is a video placeholder; a video URL wins over the image.
-            TextInput::make('video')
-                ->label('Achtergrondvideo (URL)')
-                ->placeholder('/videos/hero.mp4')
-                ->helperText('Optioneel. Een .mp4 die automatisch en zonder geluid afspeelt.'),
+            // The Figma hero is a video placeholder; a video wins over the image.
+            FileUpload::make('video')
+                ->label('Achtergrondvideo')
+                ->acceptedFileTypes(['video/mp4', 'video/webm'])
+                // Matches upload_max_filesize in the backend Dockerfile; raise both
+                // together or the browser uploads a file PHP then discards.
+                ->maxSize(131072)
+                ->directory('hero')->disk('public')->visibility('public')
+                ->helperText('Optioneel, max 128 MB. Een .mp4 of .webm die automatisch en zonder geluid afspeelt. Een video gaat vóór de achtergrondafbeelding.'),
 
             Toggle::make('show_overlay')->label('Donkere overlay tonen')->default(true),
 

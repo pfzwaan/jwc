@@ -15,8 +15,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # defaults: upload_max_filesize=2M / post_max_size=8M. Any normal photo uploaded
 # in the Filament admin exceeds that and is dropped before Laravel sees it.
 RUN { \
-        echo 'upload_max_filesize = 32M'; \
-        echo 'post_max_size = 40M'; \
+        echo 'upload_max_filesize = 128M'; \
+        echo 'post_max_size = 136M'; \
         echo 'memory_limit = 512M'; \
         echo 'max_execution_time = 120'; \
     } > /usr/local/etc/php/conf.d/uploads.ini

@@ -18,8 +18,8 @@ use Illuminate\Http\JsonResponse;
  */
 class PageController extends Controller
 {
-    /** Widget data keys holding an image path — resolved to loadable URLs at any depth. */
-    private const MEDIA_KEYS = ['image', 'bg_image', 'icon', 'logo', 'avatar'];
+    /** Widget data keys holding an uploaded media path — resolved to loadable URLs at any depth. */
+    private const MEDIA_KEYS = ['image', 'bg_image', 'icon', 'logo', 'avatar', 'video'];
 
     public function show(string $slug): JsonResponse
     {
