@@ -67,7 +67,19 @@ class HeroBlock extends AbstractWidget
                 // save. upload_max_filesize (128M) in the Dockerfile is the real
                 // ceiling, and it rejects oversized files before this point.
                 ->directory('hero')->disk('public')->visibility('public')
-                ->helperText('Optioneel, max 128 MB. Een .mp4 of .webm die automatisch en zonder geluid afspeelt. Een video gaat vóór de achtergrondafbeelding.'),
+                ->helperText('Optioneel, max 128 MB. Een .mp4 of .webm die automatisch en zonder geluid afspeelt. Een video gaat vóór de achtergrondafbeelding. Houd de bestandsnaam kort — namen boven ± 150 tekens kan de server niet wegschrijven.'),
+
+            Select::make('video_speed')
+                ->label('Afspeelsnelheid video')
+                ->options([
+                    '0.25' => 'Kwart snelheid (0,25×)',
+                    '0.5' => 'Half zo snel (0,5×)',
+                    '0.75' => 'Iets langzamer (0,75×)',
+                    '1' => 'Normaal (1×)',
+                ])
+                ->default('1')
+                ->selectablePlaceholder(false)
+                ->helperText('Alleen van toepassing als er een video is ingesteld.'),
 
             Toggle::make('show_overlay')->label('Donkere overlay tonen')->default(true),
 
@@ -102,6 +114,7 @@ class HeroBlock extends AbstractWidget
             'pattern' => 'left',
             'image' => '',
             'video' => '',
+            'video_speed' => '1',
             'show_overlay' => true,
             'buttons' => [],
         ];

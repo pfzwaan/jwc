@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { AnimateIn } from '@/components/ui/AnimateIn';
+import { BackgroundVideo } from '@/components/ui/BackgroundVideo';
 import { AccentText } from '@/components/ui/AccentText';
 import { ArrowChevron } from '@/components/ui/ArrowChevron';
 import { safeUrl } from '@/lib/safeUrl';
@@ -24,6 +25,9 @@ export function HeroBlock({ data }: { data: Record<string, unknown> }) {
   const pattern = str(data.pattern) || 'left';
   const image = mediaOr(data.image, designDefaults.hero.image);
   const video = mediaOr(data.video, designDefaults.hero.video);
+  // Blocks saved before the speed field existed have no value; 1× is the
+  // browser default anyway.
+  const videoSpeed = Number(str(data.video_speed)) || 1;
   const showOverlay = data.show_overlay !== false;
   const buttons = arr(data.buttons);
 
@@ -31,15 +35,7 @@ export function HeroBlock({ data }: { data: Record<string, unknown> }) {
     <section className="relative w-full overflow-hidden bg-[color:var(--color-overlay)]">
       {/* Background — a video wins over a still; both are decorative. */}
       {video ? (
-        <video
-          className="absolute inset-0 h-full w-full object-cover"
-          src={video}
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-hidden="true"
-        />
+        <BackgroundVideo src={video} speed={videoSpeed} />
       ) : image ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={image} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
