@@ -1,0 +1,35 @@
+johanwillemsen.soonlive.nl {
+	# Laravel/Filament backend: API, admin panel, its Livewire/asset endpoints,
+	# and anything it serves out of public/ (uploaded media, compiled assets).
+	handle /api/* {
+		reverse_proxy 127.0.0.1:8002
+	}
+	handle /admin* {
+		reverse_proxy 127.0.0.1:8002
+	}
+	handle /livewire/* {
+		reverse_proxy 127.0.0.1:8002
+	}
+	handle /storage/* {
+		reverse_proxy 127.0.0.1:8002
+	}
+	handle /build/* {
+		reverse_proxy 127.0.0.1:8002
+	}
+	handle /css/* {
+		reverse_proxy 127.0.0.1:8002
+	}
+	handle /js/* {
+		reverse_proxy 127.0.0.1:8002
+	}
+	handle /fonts/* {
+		reverse_proxy 127.0.0.1:8002
+	}
+
+	# Everything else: the Next.js frontend.
+	handle {
+		reverse_proxy 127.0.0.1:3002
+	}
+
+	encode gzip zstd
+}

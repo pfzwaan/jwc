@@ -1,0 +1,19 @@
+.DS_Store
+.idea/
+.vscode/
+.playwright-mcp/
+
+# Environment — never commit real credentials.
+.env
+.env.prod
+backend/.env
+frontend/.env.local
+
+# Dependencies & build output
+backend/vendor/
+backend/storage/framework/cache/data/*
+backend/storage/logs/*
+backend/public/storage
+frontend/node_modules/
+frontend/.next/
+frontend/tsconfig.tsbuildinfo

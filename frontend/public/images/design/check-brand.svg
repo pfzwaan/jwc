@@ -1,0 +1,6 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="check">
+<path id="secondary" d="M15.5 31C24.0604 31 31 24.0604 31 15.5C31 6.93959 24.0604 0 15.5 0C6.93959 0 0 6.93959 0 15.5C0 24.0604 6.93959 31 15.5 31Z" fill="#E8891A" fill-opacity="0.2"/>
+<path id="primary" d="M8.61112 15.4999L13.7778 20.6666L22.3889 12.0555" stroke="#E8891A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

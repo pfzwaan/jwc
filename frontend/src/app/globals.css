@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+/**
+ * Design tokens sliced from Figma (Home frame 28337:704).
+ * Add new tokens here as sections are sliced — never hardcode a hex twice.
+ */
+@theme {
+  /* Brand */
+  --color-brand: #fcb040; /* primary accent (buttons, highlights) */
+  --color-ink: #2b2b2b; /* body/heading text on light backgrounds */
+  --color-overlay: #101010; /* hero image overlay */
+  --color-ink-deep: #111111; /* CTA banner background */
+  --color-success: #219653;
+
+  /* Card palette (Figma 31783:6350) */
+  --color-card-title: #0f1d35;
+  --color-card-body: #4a5470;
+  --color-link: #ffa425; /* "Meer info" hover */
+  --color-link-strong: #ee991b; /* "Lees meer" on blog cards */
+  --color-muted: #454545; /* blog meta + excerpts */
+  --color-icon-bg: #f6f6f6;
+
+  /* Surfaces */
+  --color-surface: #ffffff;
+  --color-surface-muted: #f7f7f7; /* footer */
+  --color-surface-alt: #fafafa; /* alternating content sections */
+  --color-border: #dddddd;
+  --color-card-border: rgba(15, 29, 53, 0.09);
+
+  /* Type */
+  --font-heading: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-card: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+
+}
+
+/**
+ * The "»" on every button slides right and back on a loop while the button is
+ * hovered or keyboard-focused.
+ *
+ * Driven by one rule rather than a `group` class on each button, so it applies
+ * to every current and future button without touching them. Wrapped in a
+ * reduced-motion guard — a constantly moving element is exactly what that
+ * preference exists to stop.
+ */
+@keyframes chevron-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:hover .chevron-anim,
+  button:hover .chevron-anim,
+  a:focus-visible .chevron-anim,
+  button:focus-visible .chevron-anim {
+    animation: chevron-nudge 0.9s ease-in-out infinite;
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: var(--color-ink);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}
+
+/* Headings default to the display face. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+/* The design has no dark mode — keep the light palette in every scheme. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: var(--color-ink);
+  }
+}

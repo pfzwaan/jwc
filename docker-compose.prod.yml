@@ -1,0 +1,51 @@
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: johanwillemsen
+    volumes:
+      - johanwillemsen_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${DB_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    # Bound to loopback only — Caddy is the sole public entrypoint.
+    ports:
+      - "127.0.0.1:8002:8002"
+    volumes:
+      - ./backend:/var/www/html
+      - johanwillemsen_backend_vendor:/var/www/html/vendor
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: https://johanwillemsen.soonlive.nl/api
+      INTERNAL_API_URL: http://backend:8002/api
+    ports:
+      - "127.0.0.1:3002:3002"
+    volumes:
+      - ./frontend:/app
+      - johanwillemsen_frontend_node_modules:/app/node_modules
+
+volumes:
+  johanwillemsen_mysql_data:
+  johanwillemsen_backend_vendor:
+  johanwillemsen_frontend_node_modules:

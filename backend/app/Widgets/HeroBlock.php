@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Widgets;
+
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Support\Icons\Heroicon;
+
+/**
+ * Section 3 — the full-bleed hero (Figma 31761:4121). Background image or video
+ * with a dark overlay, centred title + intro and up to two buttons.
+ */
+class HeroBlock extends AbstractWidget
+{
+    public function label(): string
+    {
+        return 'Hero';
+    }
+
+    public function icon(): string|Heroicon
+    {
+        return Heroicon::OutlinedSparkles;
+    }
+
+    public function form(): array
+    {
+        return [
+            TextInput::make('title')->label('Titel (H1)')->columnSpanFull()
+                ->helperText('Zet *sterretjes* om een deel in de accentkleur te tonen, bv. Wij zijn *Johan Willemsen* Computers.'),
+            Textarea::make('body')->label('Introtekst')->rows(3)->columnSpanFull(),
+
+            Select::make('size')
+                ->label('Hoogte')
+                ->options(['full' => 'Volledig (homepage)', 'compact' => 'Compact (subpagina)'])
+                ->default('full')
+                ->selectablePlaceholder(false),
+
+            Select::make('align')
+                ->label('Uitlijning')
+                ->options(['center' => 'Gecentreerd', 'left' => 'Links'])
+                ->default('center')
+                ->selectablePlaceholder(false),
+
+            Select::make('pattern')
+                ->label('Achtergrondpatroon')
+                ->options(['left' => 'Links', 'right' => 'Rechts', 'none' => 'Geen'])
+                ->default('left')
+                ->selectablePlaceholder(false),
+
+            FileUpload::make('image')
+                ->label('Achtergrondafbeelding')
+                ->image()
+                ->directory('hero')->disk('public')->visibility('public')
+                ->helperText('Leeg = de standaard achtergrond uit het ontwerp.'),
+
+            // The Figma hero is a video placeholder; a video URL wins over the image.
+            TextInput::make('video')
+                ->label('Achtergrondvideo (URL)')
+                ->placeholder('/videos/hero.mp4')
+                ->helperText('Optioneel. Een .mp4 die automatisch en zonder geluid afspeelt.'),
+
+            Toggle::make('show_overlay')->label('Donkere overlay tonen')->default(true),
+
+            Repeater::make('buttons')
+                ->label('Knoppen')
+                ->schema([
+                    TextInput::make('label')->label('Knoptekst')->required(),
+                    // Plain TextInput — anchors, relative paths and full URLs must all save.
+                    TextInput::make('href')->label('Link')->placeholder('/diensten')->required(),
+                    Select::make('variant')
+                        ->label('Stijl')
+                        ->options(['primary' => 'Oranje', 'outline' => 'Wit met rand'])
+                        ->default('primary')
+                        ->selectablePlaceholder(false),
+                ])
+                ->columns(3)
+                ->defaultItems(0)
+                ->maxItems(3)
+                ->addActionLabel('Knop toevoegen')
+                ->itemLabel(fn (array $state): ?string => $state['label'] ?? null)
+                ->columnSpanFull(),
+        ];
+    }
+
+    public function defaultData(): array
+    {
+        return [
+            'title' => '',
+            'body' => '',
+            'size' => 'full',
+            'align' => 'center',
+            'pattern' => 'left',
+            'image' => '',
+            'video' => '',
+            'show_overlay' => true,
+            'buttons' => [],
+        ];
+    }
+}
