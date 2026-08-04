@@ -61,9 +61,11 @@ class HeroBlock extends AbstractWidget
             FileUpload::make('video')
                 ->label('Achtergrondvideo')
                 ->acceptedFileTypes(['video/mp4', 'video/webm'])
-                // Matches upload_max_filesize in the backend Dockerfile; raise both
-                // together or the browser uploads a file PHP then discards.
-                ->maxSize(131072)
+                // Deliberately no maxSize(): its `max` rule is the only thing that
+                // calls TemporaryUploadedFile::getSize(), which threw
+                // UnableToRetrieveMetadata on the temporary file and failed every
+                // save. upload_max_filesize (128M) in the Dockerfile is the real
+                // ceiling, and it rejects oversized files before this point.
                 ->directory('hero')->disk('public')->visibility('public')
                 ->helperText('Optioneel, max 128 MB. Een .mp4 of .webm die automatisch en zonder geluid afspeelt. Een video gaat vóór de achtergrondafbeelding.'),
 
