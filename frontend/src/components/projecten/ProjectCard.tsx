@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { safeUrl } from '@/lib/safeUrl';
@@ -19,12 +20,12 @@ export function ProjectCard({
   variant?: 'slider' | 'grid';
 }) {
   const slider = variant === 'slider';
-  const accent = project.accent || '#1e62d4';
+  const accent = project.accent || ICON_REST;
 
   const card = (
     <article
       className={[
-        'flex flex-col overflow-hidden rounded-[20px] border border-[#dbdbdb] bg-white transition duration-300',
+        'group flex flex-col overflow-hidden rounded-[20px] border border-[#dbdbdb] bg-white transition duration-300',
         slider
           ? // 565px as designed, but never wider than the viewport — on a phone
             // the card shrinks and the next one peeks in.
@@ -78,15 +79,35 @@ export function ProjectCard({
   );
 }
 
-/** Filled circle with an arrow leaving the box — 36×36 as in the design. */
+/**
+ * Brand yellow at rest, blue while the card is hovered. The hover blue is
+ * spelled out literally in the class below — Tailwind only sees static strings.
+ */
+const ICON_REST = '#fcb040';
+
+/**
+ * Filled circle with an arrow leaving the box — 36×36 as in the design.
+ *
+ * The resting colour is inline (it is per-project, set in the CMS) but goes in
+ * as a custom property rather than `color:` directly, so the `group-hover`
+ * class can still win — an inline `color` would outrank it.
+ */
 function ExternalLinkIcon({ accent }: { accent: string }) {
   return (
-    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true" className="shrink-0">
+    <svg
+      width="36"
+      height="36"
+      viewBox="0 0 36 36"
+      fill="none"
+      aria-hidden="true"
+      className="shrink-0 text-[color:var(--icon-accent)] transition-colors duration-300 group-hover:text-[#1e62d4]"
+      style={{ '--icon-accent': accent } as CSSProperties}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
         d="M18 0C27.941 0 36 8.05887 36 18C36 27.941 27.941 36 18 36C8.05887 36 0 27.941 0 18C0 8.05887 8.05887 0 18 0ZM25.2 21.6C25.2 22.5941 24.3941 23.4 23.4 23.4C22.4059 23.4 21.6 22.5941 21.6 21.6V16.9456L13.8728 24.6728C13.1698 25.3757 12.0302 25.3757 11.3272 24.6728C10.6243 23.9699 10.6243 22.8301 11.3272 22.1272L19.0544 14.4H14.4C13.4059 14.4 12.6 13.5941 12.6 12.6C12.6 11.6059 13.4059 10.8 14.4 10.8H22.8091C24.1297 10.8 25.2 11.8708 25.2 13.1911V21.6Z"
-        fill={accent}
+        fill="currentColor"
       />
     </svg>
   );
