@@ -3,10 +3,13 @@ set -e
 
 cd /app
 
-if [ ! -d node_modules ] || [ -z "$(ls -A node_modules 2>/dev/null)" ]; then
-    echo "Installing npm dependencies..."
-    npm install
-fi
+# --include=dev is required even in production: the build tooling
+# (@tailwindcss/postcss, tailwindcss, typescript) lives in devDependencies, and
+# NODE_ENV=production would otherwise make npm omit it, so `next build` fails
+# resolving the PostCSS plugin. Run unconditionally so a deploy that adds a
+# dependency installs it instead of reusing a stale node_modules volume.
+echo "Installing npm dependencies..."
+npm install --include=dev
 
 if [ "$NODE_ENV" = "production" ]; then
     npm run build
