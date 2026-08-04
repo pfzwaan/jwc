@@ -12,8 +12,18 @@ function baseUrl(): string {
   return typeof window === 'undefined' ? SERVER_API_URL : BROWSER_API_URL;
 }
 
+/**
+ * How long a cached API response stays fresh. Next 16 does not cache `fetch` by
+ * default, so without this every route would be prerendered once at build time
+ * and never look at the CMS again — a content edit (or an API hiccup during the
+ * build, which apiFetchOrNull swallows into an empty menu/footer) would stay
+ * baked into the output until the container was rebuilt.
+ */
+const REVALIDATE_SECONDS = 60;
+
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${baseUrl()}${path}`, {
+    next: { revalidate: REVALIDATE_SECONDS },
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

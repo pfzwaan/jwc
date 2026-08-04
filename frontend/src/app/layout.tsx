@@ -29,6 +29,15 @@ const dmSans = DM_Sans({
   display: 'swap',
 });
 
+/**
+ * Regenerate every route at most once a minute. The lowest `revalidate` across
+ * a route's layouts and pages governs the whole route, so setting it here means
+ * the CMS-driven header and footer below can never be stale by more than this —
+ * the menu and footer are fetched in this layout, and a build-time failure there
+ * used to ship an empty <nav> that only a rebuild could fix.
+ */
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: {
     default: 'Johan Willemsen Computers — uw betrouwbare ICT-partner',
