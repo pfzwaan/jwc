@@ -33,9 +33,11 @@ export function HeroBlock({ data }: { data: Record<string, unknown> }) {
 
   return (
     <section className="relative w-full overflow-hidden bg-[color:var(--color-overlay)]">
-      {/* Background — a video wins over a still; both are decorative. */}
+      {/* Background — a video wins over a still; both are decorative. The still
+          doubles as the video's poster, and is what phones get instead of the
+          video entirely (see BackgroundVideo). */}
       {video ? (
-        <BackgroundVideo src={video} speed={videoSpeed} />
+        <BackgroundVideo src={video} speed={videoSpeed} poster={image || undefined} />
       ) : image ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={image} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
