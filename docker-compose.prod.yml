@@ -27,6 +27,9 @@ services:
     volumes:
       - ./backend:/var/www/html
       - johanwillemsen_backend_vendor:/var/www/html/vendor
+      # Matches docker-compose.yml so `artisan images:optimize` finds the design
+      # assets here too.
+      - ./frontend/public:/var/www/frontend-public
 
   frontend:
     build:

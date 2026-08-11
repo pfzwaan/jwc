@@ -31,6 +31,9 @@ services:
       - ./backend:/var/www/html
       - johanwillemsen_backend_vendor:/var/www/html/vendor
       - ./backend/.env.docker:/var/www/html/.env
+      # The design assets live with the frontend, but PHP (and the image tooling
+      # in the backend image) is what optimizes them — see `images:optimize`.
+      - ./frontend/public:/var/www/frontend-public
 
   frontend:
     build:
