@@ -12,6 +12,18 @@ import { SmartImage } from '@/components/ui/SmartImage';
  * (top-anchored, overflow clipped) — that reads as a preview of the site's
  * header. Scaling it to fill the height instead, as object-cover does, crops
  * the sides away and leaves a meaningless vertical strip.
+ *
+ * Two layouts, one DOM:
+ *
+ * - **md and up** — the Figma composite: a 1237×529 frame with the laptop
+ *   anchored left and the phone overlapping at 79.3%.
+ * - **below md** — the composite squeezes the laptop to about a third of an
+ *   already narrow screen and the screenshot stops being readable, so the two
+ *   devices stack and the laptop takes the full width instead.
+ *
+ * The per-device boxes carry the aspect ratio their absolute children are
+ * measured against (949/529 and 256/524, straight out of the frame above), so
+ * the same percentage insets hold in both layouts.
  */
 export function DeviceMockup({
   image,
@@ -22,13 +34,13 @@ export function DeviceMockup({
   imageMobile?: string;
   alt: string;
 }) {
-  const phoneShot = imageMobile?.trim() || image;
   const hasDedicatedShot = Boolean(imageMobile && imageMobile.trim() !== '');
+  const phoneShot = hasDedicatedShot ? (imageMobile as string) : image;
 
   return (
-    <div className="relative mx-auto aspect-[1237/529] w-full max-w-[1237px]">
+    <div className="mx-auto flex w-full max-w-[1237px] flex-col items-center gap-10 md:relative md:block md:aspect-[1237/529] md:gap-0">
       {/* Laptop — 949×529 of the 1237 frame, anchored left. */}
-      <div className="absolute left-0 top-0 h-full w-[76.72%]">
+      <div className="relative aspect-[949/529] w-full md:absolute md:left-0 md:top-0 md:aspect-auto md:h-full md:w-[76.72%]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/design/device-laptop-screen.svg"
@@ -36,12 +48,16 @@ export function DeviceMockup({
           aria-hidden="true"
           className="absolute inset-[0_9.49%_1.82%_9.5%] h-auto w-[81.01%]"
         />
+        {/* The explicit width (100 − 10.09 − 10.13) matters: an absolutely
+            positioned <img> with `width: auto` resolves to its intrinsic width
+            and drops the `right` inset, which pushed it past the viewport once
+            the laptop went full-width on phones. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/design/device-laptop-inner.svg"
           alt=""
           aria-hidden="true"
-          className="absolute inset-[0.92%_10.09%_5.73%_10.13%]"
+          className="absolute inset-[0.92%_10.09%_5.73%_10.13%] w-[79.78%]"
         />
 
         {/* Screen — the project screenshot, cropped from the top. */}
@@ -62,8 +78,18 @@ export function DeviceMockup({
           left 79.3%, top 0.57%, 20.7% × 99.05%. Derived from the coordinates,
           not Figma's exported `inset` percentages: those are relative to a
           different ancestor and produced a 256×394 box, whose wrong aspect
-          letterboxed the frame and let the screen bleed past its edge. */}
-      <div className="absolute left-[79.3%] top-[0.57%] hidden h-[99.05%] w-[20.7%] md:block">
+          letterboxed the frame and let the screen bleed past its edge.
+
+          Stacked below the laptop on phones — but only when the project has a
+          real portrait screenshot. The desktop-shot fallback would otherwise
+          show the same picture twice on the one screen narrow enough for the
+          repetition to be obvious. */}
+      <div
+        className={[
+          hasDedicatedShot ? 'relative aspect-[256/524] w-[150px]' : 'hidden',
+          'md:absolute md:left-[79.3%] md:top-[0.57%] md:block md:aspect-auto md:h-[99.05%] md:w-[20.7%]',
+        ].join(' ')}
+      >
         <div className="absolute inset-[0_1%] rounded-[50px] bg-black shadow-[0px_0px_50px_0px_rgba(0,0,0,0.4)]" />
 
         <div className="absolute inset-[1.94%_4.44%_1.94%_4.67%] overflow-hidden rounded-[15px] bg-white">
