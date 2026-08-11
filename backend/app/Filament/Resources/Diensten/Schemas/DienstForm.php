@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\Diensten\Schemas;
 
+use App\Filament\Forms\Components\WebImage;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
@@ -80,9 +80,8 @@ class DienstForm
                     Section::make('Afbeelding')
                         ->icon(Heroicon::OutlinedPhoto)
                         ->schema([
-                            FileUpload::make('image')
+                            WebImage::make('image')
                                 ->label('Afbeelding')->hiddenLabel()
-                                ->image()
                                 ->directory('diensten')->disk('public')->visibility('public')
                                 ->helperText('Leeg = placeholder-afbeelding.'),
                             TextInput::make('icon')->label('Icoon')->maxLength(255)

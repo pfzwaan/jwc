@@ -2,6 +2,7 @@
 
 namespace App\Widgets;
 
+use App\Filament\Forms\Components\WebImage;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -51,9 +52,8 @@ class HeroBlock extends AbstractWidget
                 ->default('left')
                 ->selectablePlaceholder(false),
 
-            FileUpload::make('image')
+            WebImage::make('image')
                 ->label('Achtergrondafbeelding')
-                ->image()
                 ->directory('hero')->disk('public')->visibility('public')
                 ->helperText('Leeg = de standaard achtergrond uit het ontwerp.'),
 

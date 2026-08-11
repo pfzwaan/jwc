@@ -2,9 +2,9 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Forms\Components\WebImage;
 use App\Models\Setting;
 use BackedEnum;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -47,9 +47,9 @@ class Settings extends Page implements HasForms
             Section::make('Bedrijfsgegevens')->schema([
                 TextInput::make('company_name')->label('Bedrijfsnaam')->placeholder('Johan Willemsen Computers'),
                 Textarea::make('tagline')->label('Tagline')->rows(2)->columnSpanFull(),
-                FileUpload::make('logo')->label('Logo')->image()
+                WebImage::make('logo')->label('Logo')
                     ->directory('settings')->disk('public')->visibility('public'),
-                FileUpload::make('logo_white')->label('Logo (wit, voor donkere achtergrond)')->image()
+                WebImage::make('logo_white')->label('Logo (wit, voor donkere achtergrond)')
                     ->directory('settings')->disk('public')->visibility('public'),
             ])->columns(2),
 

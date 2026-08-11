@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\Pages\Schemas;
 
+use App\Filament\Forms\Components\WebImage;
 use App\Models\Page;
 use App\Widgets\WidgetRegistry;
 use Filament\Actions\Action;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -142,7 +142,7 @@ class PageForm
                             TextInput::make('menu_featured_card.badge')->label('Label')->placeholder('Populair'),
                             TextInput::make('menu_featured_card.title')->label('Titel'),
                             Textarea::make('menu_featured_card.text')->label('Tekst')->rows(2)->columnSpanFull(),
-                            FileUpload::make('menu_featured_card.image')->label('Afbeelding')->image()
+                            WebImage::make('menu_featured_card.image')->label('Afbeelding')
                                 ->directory('menu')->disk('public')->visibility('public')
                                 ->helperText('Leeg = subtiele placeholder.'),
                             TextInput::make('menu_featured_card.cta_label')->label('Knoptekst'),

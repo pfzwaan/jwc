@@ -2,7 +2,7 @@
 
 namespace App\Widgets;
 
-use Filament\Forms\Components\FileUpload;
+use App\Filament\Forms\Components\WebImage;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -37,9 +37,8 @@ class LogosBlock extends AbstractWidget
             Repeater::make('logos')
                 ->label('Logo\'s')
                 ->schema([
-                    FileUpload::make('image')
+                    WebImage::make('image')
                         ->label('Logo')
-                        ->image()
                         ->directory('logos')->disk('public')->visibility('public'),
                     TextInput::make('name')->label('Naam')->helperText('Gebruikt als alt-tekst.'),
                     // Plain TextInput — relative paths and full URLs must both save.

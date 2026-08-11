@@ -2,8 +2,8 @@
 
 namespace App\Widgets;
 
+use App\Filament\Forms\Components\WebImage;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Icons\Heroicon;
@@ -33,9 +33,8 @@ class StatsBlock extends AbstractWidget
             Repeater::make('stats')
                 ->label('Cijfers')
                 ->schema([
-                    FileUpload::make('icon')
+                    WebImage::make('icon')
                         ->label('Icoon')
-                        ->image()
                         ->directory('icons')->disk('public')->visibility('public'),
                     TextInput::make('value')->label('Cijfer')->placeholder('2.500+')->required(),
                     TextInput::make('label')->label('Omschrijving')->placeholder('Tevreden klanten'),

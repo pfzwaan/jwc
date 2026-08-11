@@ -2,8 +2,8 @@
 
 namespace App\Widgets;
 
+use App\Filament\Forms\Components\WebImage;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -49,9 +49,8 @@ class TextImageBlock extends AbstractWidget
                         ->helperText('Leeg = accentkleur.'),
                 ]),
 
-            FileUpload::make('image')
+            WebImage::make('image')
                 ->label('Afbeelding')
-                ->image()
                 ->directory('content')->disk('public')->visibility('public')
                 ->columnSpanFull(),
 

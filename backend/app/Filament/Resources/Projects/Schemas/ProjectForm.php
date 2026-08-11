@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\Projects\Schemas;
 
+use App\Filament\Forms\Components\WebImage;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
@@ -75,13 +75,11 @@ class ProjectForm
                     Section::make('Schermafbeelding')
                         ->icon(Heroicon::OutlinedPhoto)
                         ->schema([
-                            FileUpload::make('image')
+                            WebImage::make('image')
                                 ->label('Desktop')
-                                ->image()
                                 ->directory('projects')->disk('public')->visibility('public'),
-                            FileUpload::make('image_mobile')
+                            WebImage::make('image_mobile')
                                 ->label('Mobiel (optioneel)')
-                                ->image()
                                 ->directory('projects')->disk('public')->visibility('public')
                                 ->helperText('Voor de telefoon in de header. Leeg = de desktopafbeelding.'),
                             ColorPicker::make('accent_color')->label('Kleur icoon')->hex()

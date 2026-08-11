@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\BlogPosts\Schemas;
 
+use App\Filament\Forms\Components\WebImage;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -65,9 +65,8 @@ class BlogPostForm
                     Section::make('Afbeelding')
                         ->icon(Heroicon::OutlinedPhoto)
                         ->schema([
-                            FileUpload::make('image')
+                            WebImage::make('image')
                                 ->label('Afbeelding')->hiddenLabel()
-                                ->image()
                                 ->directory('blog')->disk('public')->visibility('public')
                                 ->helperText('Leeg = placeholder-afbeelding.'),
                         ]),

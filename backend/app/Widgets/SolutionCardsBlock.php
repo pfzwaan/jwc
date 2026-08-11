@@ -2,7 +2,7 @@
 
 namespace App\Widgets;
 
-use Filament\Forms\Components\FileUpload;
+use App\Filament\Forms\Components\WebImage;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -45,9 +45,8 @@ class SolutionCardsBlock extends AbstractWidget
             Repeater::make('cards')
                 ->label('Kaarten')
                 ->schema([
-                    FileUpload::make('icon')
+                    WebImage::make('icon')
                         ->label('Icoon')
-                        ->image()
                         ->directory('icons')->disk('public')->visibility('public')
                         ->helperText('Bij voorkeur een SVG.'),
                     TextInput::make('title')->label('Titel')->required(),
