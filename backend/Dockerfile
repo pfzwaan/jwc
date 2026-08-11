@@ -5,9 +5,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     libzip-dev \
     libpng-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
     libicu-dev \
+    # CLI recompressors. GD decides dimensions and format; these squeeze the
+    # bytes far harder than GD's own encoders can (see App\Support\ImageOptimizer).
+    pngquant \
+    optipng \
+    jpegoptim \
+    webp \
+    # gd must be *configured* before it is installed: without these flags the
+    # bundled build supports PNG and GIF only, so every JPEG upload fails to
+    # decode and WebP output is impossible.
+    && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
