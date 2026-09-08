@@ -65,6 +65,12 @@ class Settings extends Page implements HasForms
                 TextInput::make('company_coc')->label('KVK-nummer')->placeholder('11063125'),
             ])->columns(2),
 
+            Section::make('Header')
+                ->schema([
+                    TextInput::make('header_cta_label')->label('Knoptekst')->placeholder('Remote Support'),
+                    TextInput::make('header_cta_href')->label('Link')->placeholder('/contact'),
+                ])->columns(2),
+
             Section::make('Social media')
                 ->description('Laat leeg om een icoon te verbergen.')
                 ->schema([
