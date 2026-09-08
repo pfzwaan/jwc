@@ -26,6 +26,7 @@ export function Header({ menu, settings }: { menu: MenuItem[]; settings: SiteSet
   const logoSrc = settings.logo?.trim() || '/images/design/logo.png';
   const ctaLabel = settings.header_cta_label?.trim() || 'Remote Support';
   const ctaHref = settings.header_cta_href?.trim() || '/contact';
+  const ctaNewTab = settings.header_cta_new_tab === '1';
 
   const barRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -116,6 +117,8 @@ export function Header({ menu, settings }: { menu: MenuItem[]; settings: SiteSet
             <Link
               href={safeUrl(ctaHref)}
               ref={ctaRef}
+              target={ctaNewTab ? '_blank' : undefined}
+              rel={ctaNewTab ? 'noopener noreferrer' : undefined}
               className="hidden h-[65px] w-[256px] items-center justify-center gap-2 rounded-[10px] bg-[color:var(--color-brand)] font-heading text-[18px] font-extrabold text-[color:var(--color-ink)] transition hover:brightness-105 sm:inline-flex"
             >
               {ctaLabel}
@@ -136,6 +139,7 @@ export function Header({ menu, settings }: { menu: MenuItem[]; settings: SiteSet
         settings={settings}
         ctaLabel={ctaLabel}
         ctaHref={ctaHref}
+        ctaNewTab={ctaNewTab}
       />
     </header>
   );
@@ -424,6 +428,7 @@ function MobileOverlay({
   settings,
   ctaLabel,
   ctaHref,
+  ctaNewTab,
 }: {
   open: boolean;
   compact: boolean;
@@ -433,6 +438,7 @@ function MobileOverlay({
   settings: SiteSettings;
   ctaLabel: string;
   ctaHref: string;
+  ctaNewTab: boolean;
 }) {
   const phone = settings.contact_phone?.trim();
   const email = settings.contact_email?.trim();
@@ -500,6 +506,8 @@ function MobileOverlay({
             <Link
               href={safeUrl(ctaHref)}
               onClick={onClose}
+              target={ctaNewTab ? '_blank' : undefined}
+              rel={ctaNewTab ? 'noopener noreferrer' : undefined}
               className="flex h-[65px] items-center justify-center gap-2 rounded-[10px] bg-[color:var(--color-brand)] font-heading text-[18px] font-extrabold text-[color:var(--color-ink)]"
             >
               {ctaLabel}

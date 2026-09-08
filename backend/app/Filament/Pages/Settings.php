@@ -7,6 +7,7 @@ use App\Models\Setting;
 use BackedEnum;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
@@ -69,6 +70,7 @@ class Settings extends Page implements HasForms
                 ->schema([
                     TextInput::make('header_cta_label')->label('Knoptekst')->placeholder('Remote Support'),
                     TextInput::make('header_cta_href')->label('Link')->placeholder('/contact'),
+                    Toggle::make('header_cta_new_tab')->label('Openen in nieuw venster')->columnSpanFull(),
                 ])->columns(2),
 
             Section::make('Social media')
