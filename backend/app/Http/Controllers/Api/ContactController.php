@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactRequestReceived;
 use App\Models\ContactRequest;
+use App\Models\Setting;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Contact / offerte form. Rate-limited and honeypot-guarded at the route.
@@ -28,7 +32,18 @@ class ContactController extends Controller
 
         unset($data['consent']);
 
-        ContactRequest::create($data);
+        $contactRequest = ContactRequest::create($data);
+
+        $to = Setting::get('contact_email') ?: config('mail.from.address');
+
+        if ($to) {
+            try {
+                Mail::to($to)->send(new ContactRequestReceived($contactRequest));
+            } catch (\Throwable $e) {
+                // The submission is already saved; a mail outage must never lose it.
+                Log::error('Failed to send contact request notification: '.$e->getMessage());
+            }
+        }
 
         return response()->json([
             'message' => 'Bedankt voor je bericht. We nemen zo snel mogelijk contact met je op.',
